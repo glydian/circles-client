@@ -3,8 +3,8 @@
     <p>{{players}}</p>
     <svg :width="boardSize + 'px'" :height="boardSize + 'px'" :viewBox="myViewBox">
       <g class="board">
-        <circle cx="0" cy="0" class="innerCircle" :r="innerCircleRadius(tickTime)"/>
-        <circle cx="0" cy="0" class="outerCircle" :r="outerCircleRadius(tickTime)"/>
+        <circle cx="0" cy="0" class="outerCircle" :r="outerCircleRadius"/>
+        <circle cx="0" cy="0" class="innerCircle" :r="innerCircleRadius"/>
 
         <line v-for="n in 20" x1="-2000" x2="2000" :y1="getLineLocation(n)" :y2="getLineLocation(n)"></line>
         <line v-for="n in 20" :x1="getLineLocation(n)" :x2="getLineLocation(n)" y1="-2000" y2="2000"></line>
@@ -27,16 +27,23 @@
 <script>
 export default {
   name: 'board-svg',
-  props: ['players', 'tickTime'],
-  /*
-    player {
-      pos: {x: 300, y: 100},
-      nickname: "ant",
-      id: sntoehustoa-9012,
-      score: 20,
-    }
-  */
+  props: ['mapState'],
   computed: {
+    players() {
+      return this.mapState.playersInfo;
+    },
+    powerups() {
+      return this.mapState.powerups;
+    },
+    tickTime() {
+      return this.mapState.tickTime;
+    },
+    innerCircleRadius() {
+      return this.getInnerCircleRadius(this.tickTime);
+    },
+    outerCircleRadius() {
+      return this.getOuterCircleRadius(this.tickTime);
+    },
     myLocation() {
       for (let i = 0; i < this.players.length; i += 1) {
         if (this.players[i].id === this.$socket.id) {
@@ -55,17 +62,18 @@ export default {
     return {
       gridLineSpacing: 200,
       boardSize: 4000,
+      gameLengthInTicks: 1500,
     };
   },
   methods: {
     getLineLocation(n) {
       return (n - 10) * this.gridLineSpacing;
     },
-    innerCircleRadius(currentTick) {
+    getInnerCircleRadius(currentTick) {
       return (this.gameLengthInTicks - currentTick) * (2 / 3);
     },
-    outerCircleRadius(currentTick) {
-      return this.innerCircleRadius(currentTick) + this.innerCircleRadius(0);
+    getOuterCircleRadius(currentTick) {
+      return this.getInnerCircleRadius(currentTick) + this.getInnerCircleRadius(0);
     },
   },
 };
@@ -85,10 +93,12 @@ svg {
 .players {
   circle {
     fill: $darkColour;
+    stroke: $lightColour;
   }
 
   text {
     fill: $darkColour;
+    stroke: $lightColour;
     font-size: 22px;
     font-weight: bold;
     font-family: sans-serif;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <board v-bind:players="players" v-bind:tickTime="tickTime"></board>
+    <board v-bind:mapState="mapState"></board>
 
     <div id="leaderboard" v-show="players.length > 0">
       <h3>Players</h3>
@@ -22,8 +22,16 @@ export default {
   props: ['gameRunning'],
   data() {
     return {
-      players: [],
-      tickTime: 0,
+      mapState: {
+        playersInfo: [{
+          pos: {
+            x: 0,
+            y: 0,
+          },
+        }],
+        powerups: [],
+        tickTime: 0,
+      },
       keys: {
         left: false,
         right: false,
@@ -32,10 +40,14 @@ export default {
       },
     };
   },
+  computed: {
+    players() {
+      return this.mapState.playersInfo;
+    },
+  },
   sockets: {
-    mapUpdate(players, tickTime) {
-      this.players = players;
-      this.tickTime = tickTime;
+    mapUpdate(mapState) {
+      this.mapState = mapState;
     },
   },
   mounted() {
