@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
 import App from './App.vue';
 
-const server = io('https://circles.antoniasiu.co.uk:3000', {
+const server = io('//circles.antoniasiu.co.uk:3000', {
   secure: true,
   reconnection: false,
 });
