@@ -5,7 +5,8 @@
       <p v-if="message !== ''" class="message">{{message}}</p>
       <div>
         <label for="nickname">Nickname</label>
-        <input v-focus ref="nickname" @keyup.enter="play" type="text" name="nickname">
+        <input v-focus ref="nickname" @keyup.enter="play" autocomplete="off"
+          type="text" name="nickname">
       </div>
       <button @click="play">Play</button>
     </div>
