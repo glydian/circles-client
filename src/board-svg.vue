@@ -9,6 +9,13 @@
         <line v-for="n in 20" :x1="getLineLocation(n)" :x2="getLineLocation(n)" y1="-2000" y2="2000"></line>
       </g>
 
+      <g class="powerups">
+        <g v-for="powerup in powerups" class="powerup">
+          <circle :cx="powerup.pos.x" :cy="powerup.pos.y" r="20"/>
+          <text :x="powerup.pos.x" :y="powerup.pos.y">{{powerup.type}}</text>
+        </g>
+      </g>
+
       <g class="players">
         <text v-for="player in players"
           :x="player.pos.x"
@@ -101,6 +108,19 @@ svg {
     font-size: 22px;
     font-weight: bold;
     font-family: sans-serif;
+  }
+}
+
+.powerup {
+  circle {
+    fill: $darkColour;
+    stroke: $lightColour;
+  }
+
+  text {
+    text-anchor: middle;
+    dominant-baseline: middle;
+    fill: $lightColour;
   }
 }
 
