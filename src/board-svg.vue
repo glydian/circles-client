@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>{{players}}</p>
     <svg :width="boardSize + 'px'" :height="boardSize + 'px'" :viewBox="myViewBox">
       <g class="board">
         <circle cx="0" cy="0" class="outerCircle" :r="outerCircleRadius"/>
