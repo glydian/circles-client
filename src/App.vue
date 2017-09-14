@@ -48,6 +48,7 @@ export default {
         this.message = '';
         this.switchView('game');
       } else {
+        this.$socket.connect();
         this.message = 'unable to connect to server';
       }
     },
