@@ -31,30 +31,48 @@ export default {
       this.message = '';
       this.connected = true;
     },
+    connect_error() {
+      this.message = 'could not connect to server';
+      this.connected = false;
+    },
+    connect_timeout() {
+      this.message = 'connection timed out';
+      this.connected = false;
+    },
+    error(message) {
+      this.message = `error: ${message}`;
+    },
     disconnect() {
-      this.switchView('start', 'oops, something went wrong :(');
+      this.switchView('start', 'oops, something went wrong :(', true);
       this.gameRunning = false;
       this.connected = false;
+    },
+    outOfBounds() {
+      this.message = 'you were out of bounds';
+    },
+    conSuccess() {
+      this.gameRunning = true;
+      this.switchView('game', '');
+    },
+    conError(message) {
+      this.message = `error: ${message}`;
     },
   },
   created() {
     this.$root.app = this;
   },
   methods: {
-    switchView(newView, message) {
-      this.currentView = newView;
-      this.message = message;
+    switchView(newView, message, onlyIfEmpty) {
+      if (this.currentView !== newView) {
+        this.currentView = newView;
+        if (!onlyIfEmpty || this.message === '') {
+          this.message = message;
+        }
+      }
     },
     startGame(nickname) {
-      if (this.connected) {
-        this.$socket.emit('playerInfo', nickname);
-        this.gameRunning = true;
-        this.message = '';
-        this.switchView('game');
-      } else {
-        this.$socket.connect();
-        this.message = 'unable to connect to server';
-      }
+      this.$socket.connect();
+      this.$socket.emit('playerInfo', nickname);
     },
   },
 };

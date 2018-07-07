@@ -122,7 +122,9 @@ export default {
       });
     },
     sendKeys() {
-      this.$socket.emit('keyUpdate', this.keys);
+      if (this.gameRunning) {
+        this.$socket.emit('keyUpdate', this.keys);
+      }
     },
   },
 };
