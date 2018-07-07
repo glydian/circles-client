@@ -5,8 +5,8 @@
         <circle cx="0" cy="0" class="outerCircle" :r="outerCircleRadius"/>
         <circle cx="0" cy="0" class="innerCircle" :r="innerCircleRadius"/>
 
-        <line v-for="n in 20" x1="-2000" x2="2000" :y1="getLineLocation(n)" :y2="getLineLocation(n)"></line>
-        <line v-for="n in 20" :x1="getLineLocation(n)" :x2="getLineLocation(n)" y1="-2000" y2="2000"></line>
+        <line v-for="n in 21" x1="-2000" x2="2000" :y1="getLineLocation(n)" :y2="getLineLocation(n)"></line>
+        <line v-for="n in 21" :x1="getLineLocation(n)" :x2="getLineLocation(n)" y1="-2000" y2="2000"></line>
 
         <text x="0" y="0">{{secondsLeft}}</text>
       </g>
@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     getLineLocation(n) {
-      return (n - 10) * this.gridLineSpacing;
+      return (n - 11) * this.gridLineSpacing;
     },
     getInnerCircleRadius(currentTick) {
       return (this.gameLengthInTicks - currentTick) * (2 / 3);
