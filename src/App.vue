@@ -1,7 +1,11 @@
 <template>
-  <component v-bind:is="currentView"
-    v-bind:message="message"
-    v-bind:gameRunning="gameRunning"></component>
+  <keep-alive>
+    <component
+      v-bind:is="currentView"
+      v-bind:message="message"
+      v-bind:gameRunning="gameRunning">
+    </component>
+  </keep-alive>
 </template>
 
 <script>
