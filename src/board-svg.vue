@@ -7,6 +7,8 @@
 
         <line v-for="n in 20" x1="-2000" x2="2000" :y1="getLineLocation(n)" :y2="getLineLocation(n)"></line>
         <line v-for="n in 20" :x1="getLineLocation(n)" :x2="getLineLocation(n)" y1="-2000" y2="2000"></line>
+
+        <text x="0" y="0">{{secondsLeft}}</text>
       </g>
 
       <g class="powerups">
@@ -44,6 +46,9 @@ export default {
     tickTime() {
       return this.mapState.tickTime;
     },
+    secondsLeft() {
+      return Math.floor((this.gameLengthInTicks - this.tickTime) * (this.tickLength / 1000)) + 1;
+    },
     innerCircleRadius() {
       return this.getInnerCircleRadius(this.tickTime);
     },
@@ -69,6 +74,7 @@ export default {
       gridLineSpacing: 200,
       boardSize: 4000,
       gameLengthInTicks: 1500,
+      tickLength: 20,
     };
   },
   methods: {
@@ -94,6 +100,17 @@ svg {
   left: 0;
   width: 100vw;
   height: 100vh;
+}
+
+.board text {
+  fill: $darkColour;
+  stroke: $lightColour;
+  stroke-width: 2px;
+  font-size: 80pt;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-anchor: middle;
+  dominant-baseline: middle;
 }
 
 .players {
