@@ -5,7 +5,7 @@
       <p v-if="message !== ''" class="message">{{message}}</p>
       <div>
         <label for="nickname">Nickname</label>
-        <input v-focus ref="nickname" @keyup.enter="play" autocomplete="off"
+        <input v-focus v-model="nickname" @keyup.enter="play" autocomplete="off"
           type="text" name="nickname">
       </div>
       <button @click="play">Play</button>
@@ -17,6 +17,11 @@
 export default {
   name: 'start',
   props: ['message'],
+  data() {
+    return {
+      nickname: '',
+    };
+  },
   directives: {
     focus: {
       inserted(el) {
@@ -26,8 +31,7 @@ export default {
   },
   methods: {
     play() {
-      const nickname = this.$refs.nickname.value;
-      this.$root.app.startGame(nickname);
+      this.$root.app.startGame(this.nickname);
     },
   },
 };
